@@ -51,7 +51,7 @@ a{
 .login-img-container {
     width: 40%;
     height: 100%;
-    background-image: url(./img/image.png);
+    background-image: url(/images/login.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;

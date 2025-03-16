@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const walletController = require('../controller/wallet.js');
+const walletController = require('../controller/user.js');
 
 router.post('/wallet/:id/add', walletController.addBalance);
 

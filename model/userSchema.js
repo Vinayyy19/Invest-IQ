@@ -1,6 +1,13 @@
 const mongoose = require('mongoose');
 const passportLocalMongoose = require("passport-local-mongoose");
 
+const TransactionSchema = new mongoose.Schema({
+  name: String,
+  description: String,
+  amount: Number,
+  date: { type: Date, default: Date.now }
+});
+
 const UserSchema = new mongoose.Schema({
   firstname: {
     type: String,
@@ -16,7 +23,16 @@ const UserSchema = new mongoose.Schema({
       type: Number,
       default: 0
     }
-  }
+  },
+  income: {
+    type: Number,
+    default: 0
+  },
+  expenses: {
+    type: Number,
+    default: 0
+  },
+  transactions: [TransactionSchema]
 });
 
 UserSchema.plugin(passportLocalMongoose, { usernameField: "email" });

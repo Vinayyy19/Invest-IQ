@@ -7,19 +7,20 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+    <%- include('../includes/flash.ejs') %>
+
     <div class="container">
         <div class="profile-card">
             <div class="profile-header">
-                <img src="./images/profile.png" alt="Profile Picture" class="profile-image">
+                <img src="/images/profile.png" alt="Profile Picture" class="profile-image">
                 <div class="profile-info">
-                    <h1 class="profile-name">mohammad raqsuul</h1>
-                    <p class="profile-email">mohammad123@example.com</p>
-                    <p class="profile-member-since">Member since: January 2022</p>
+                    <h1 class="profile-name"><%= user.firstname %></h1>
+                    <p class="profile-email"><%= user.email %></p>
                 </div>
             </div>
             <div class="wallet-section">
                 <h3 class="wallet-title">Wallet</h3>
-                <p class="wallet-balance">Balance: <span id="balance" class="balance-amount">$100</span></p>
+                <p class="wallet-balance">Balance: <span id="balance" class="balance-amount">$<%= user.walletBalance.toFixed(2) %></span></p>
                 <div class="wallet-actions">
                     <input type="number" id="amount" placeholder="Enter amount" class="amount-input">
                     <button onclick="addMoney()" class="add-money-button">Add</button>
@@ -28,19 +29,18 @@
             </div>
         </div>
 
-        
         <div class="stats-grid">
             <div class="stat-card">
                 <h2 class="stat-title">Total Balance</h2>
-                <p id="balance" class="stat-amount green">$100</p>
+                <p id="balance" class="stat-amount green">$<%= user.walletBalance.toFixed(2) %></p>
             </div>
             <div class="stat-card">
                 <h2 class="stat-title">Monthly Income</h2>
-                <p class="stat-amount blue">$4,500.00</p>
+                <p class="stat-amount blue">$<%= user.income.toFixed(2) %></p>
             </div>
             <div class="stat-card">
                 <h2 class="stat-title">Monthly Expenses</h2>
-                <p class="stat-amount red">$3,200.00</p>
+                <p class="stat-amount red">$<%= user.expenses.toFixed(2) %></p>
             </div>
         </div>
 
@@ -48,47 +48,68 @@
         <div class="transactions-section">
             <h2 class="transactions-title">Recent Transactions</h2>
             <div class="transactions-list">
-                <div class="transaction-item">
-                    <div class="transaction-details">
-                        <h3 class="transaction-name">Groceries</h3>
-                        <p class="transaction-description">Supermarket</p>
-                    </div>
-                    <p class="transaction-amount red">-$150.00</p>
-                </div>
-                <div class="transaction-item">
-                    <div class="transaction-details">
-                        <h3 class="transaction-name">Salary</h3>
-                        <p class="transaction-description">Company Inc.</p>
-                    </div>
-                    <p class="transaction-amount green">+$4,500.00</p>
-                </div>
-                <div class="transaction-item">
-                    <div class="transaction-details">
-                        <h3 class="transaction-name">Utilities</h3>
-                        <p class="transaction-description">Electricity Bill</p>
-                    </div>
-                    <p class="transaction-amount red">-$120.00</p>
-                </div>
+                <% if (user.transactions.length > 0) { %>
+                    <% user.transactions.forEach(transaction => { %>
+                        <div class="transaction-item">
+                            <div class="transaction-details">
+                                <h3 class="transaction-name"><%= transaction.name %></h3>
+                                <p class="transaction-description"><%= transaction.description %></p>
+                            </div>
+                            <p class="transaction-amount <%= transaction.amount < 0 ? 'red' : 'green' %>">
+                                <%= transaction.amount < 0 ? '-' : '+' %>$<%= Math.abs(transaction.amount).toFixed(2) %>
+                            </p>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <p>No recent transactions.</p>
+                <% } %>
             </div>
         </div>
     </div>
 
     <script>
-        function addMoney() {
-            const amount = parseFloat(document.getElementById('amount').value);
-            const balanceElement = document.getElementById('balance');
-            let balance = parseFloat(balanceElement.textContent.replace('$', ''));
-            balance += amount;
-            balanceElement.textContent = `$${balance.toFixed(2)}`;
-        }
+        async function addMoney() {
+    const amount = parseFloat(document.getElementById('amount').value);
+    if (isNaN(amount) || amount <= 0) {
+        alert("Please enter a valid amount to add.");
+        return;
+    }
 
-        function withdrawMoney() {
-            const amount = parseFloat(document.getElementById('amount').value);
-            const balanceElement = document.getElementById('balance');
-            let balance = parseFloat(balanceElement.textContent.replace('$', ''));
-            balance -= amount;
-            balanceElement.textContent = `$${balance.toFixed(2)}`;
-        }
+    const response = await fetch(`/wallet/<%= user._id %>/add`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount })
+    });
+
+    if (response.ok) {
+        const data = await response.json();
+        document.getElementById('balance').textContent = `$${data.newBalance.toFixed(2)}`;
+    } else {
+        alert("Failed to add money. Try again.");
+    }
+}
+
+async function withdrawMoney() {
+    const amount = parseFloat(document.getElementById('amount').value);
+    if (isNaN(amount) || amount <= 0) {
+        alert("Please enter a valid amount to withdraw.");
+        return;
+    }
+
+    const response = await fetch(`/wallet/<%= user._id %>/sub`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount })
+    });
+
+    if (response.ok) {
+        const data = await response.json();
+        document.getElementById('balance').textContent = `$${data.newBalance.toFixed(2)}`;
+    } else {
+        alert("Insufficient funds or error occurred.");
+    }
+}
+
     </script>
 </body>
 </html>

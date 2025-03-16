@@ -1,8 +1,12 @@
 const User = require("../model/userSchema.js");
+// const User = require("../model/userSchema.js");
 
 module.exports.signUp = async (req, res) => {
+  console.log(req.body);
     try {
       const { email, firstname, password } = req.body;
+      console.log(email);
+      console.log(firstname);
       // Validate input data
       if (!email || !password) {
         req.flash("failed", "Email and password are required.");
@@ -50,3 +54,45 @@ module.exports.getUserById = async (id) => {
       return null;
     }
 }
+
+exports.addBalance = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { amount } = req.body;
+
+        if (amount <= 0) return res.status(400).json({ error: "Invalid amount" });
+
+        const user = await User.findById(id);
+        if (!user) return res.status(404).json({ error: "User not found" });
+
+        user.wallet.balance += amount;
+        await user.save();
+
+        res.json({ message: "Balance added successfully", newBalance: user.wallet.balance });
+    } catch (error) {
+        res.status(500).json({ error: "Server error" });
+    }
+};
+
+exports.subBalance = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { amount } = req.body;
+
+        if (amount <= 0) return res.status(400).json({ error: "Invalid amount" });
+
+        const user = await User.findById(id);
+        if (!user) return res.status(404).json({ error: "User not found" });
+
+        if (user.wallet.balance < amount) {
+            return res.status(400).json({ error: "Insufficient funds" });
+        }
+
+        user.wallet.balance -= amount;
+        await user.save();
+
+        res.json({ message: "Balance withdrawn successfully", newBalance: user.wallet.balance });
+    } catch (error) {
+        res.status(500).json({ error: "Server error" });
+    }
+};
