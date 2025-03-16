@@ -1,0 +1,26 @@
+.bond-container {
+    background-color: green;
+}
+
+.bond-list {
+    list-style-type: none;
+    border: 1px solid gray;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    padding: 20px 10px;
+    border-radius: 4px;
+    width: 90%;
+    max-width: 550px;
+    position: relative;
+
+}
+
+.bond-price {
+    font-weight: bold;
+}
+
+.bond-name {
+    font-weight: bold;
+    margin-right: 2rem;
+}
