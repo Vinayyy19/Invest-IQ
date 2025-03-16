@@ -4,6 +4,7 @@ let stockInfoBtn = document.querySelector('.stock-info-btn');
 let searchResultContainer = document.querySelector('.search-result-container');
 
 let api = `https://financialmodelingprep.com/api/v3/quote/`;
+let buyBtn = 0;
 async function getData(stockDetails) {
     const response = await fetch(`https://financialmodelingprep.com/api/v3/quote/${stockDetails}?apikey=YyAaQml1a2XFb0vpBOtSv1p7sOPJlspH`);
     const data = response.json();
@@ -21,7 +22,7 @@ async function getData(stockDetails) {
         stockPrice.innerText = `$${ap.price}`;
 
         stockContainer.appendChild(stockPrice);
-        let buyBtn = document.createElement('button');
+         buyBtn = document.createElement('button');
         buyBtn.classList.add('buy');
         buyBtn.innerText = 'Buy';
         stockContainer.appendChild(buyBtn);

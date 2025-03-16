@@ -12,7 +12,7 @@
     <div class="container">
         <div class="profile-card">
             <div class="profile-header">
-                <img src="/images/profile.png" alt="Profile Picture" class="profile-image">
+                <img src="/images/profileImg.jpg" alt="Profile Picture" class="profile-image">
                 <div class="profile-info">
                     <h1 class="profile-name"><%= user.firstname %></h1>
                     <p class="profile-email"><%= user.email %></p>
@@ -63,6 +63,7 @@
                 <% } else { %>
                     <p>No recent transactions.</p>
                 <% } %>
+                const usr = <%= user._id %>;
             </div>
         </div>
     </div>
@@ -70,7 +71,7 @@
     <script>
         async function addMoney() {
     const amount = parseFloat(document.getElementById('amount').value);
-    if (isNaN(amount) || amount <= 0) {
+    if (isNaN(amount) || amount < 0) {
         alert("Please enter a valid amount to add.");
         return;
     }
@@ -109,7 +110,6 @@ async function withdrawMoney() {
         alert("Insufficient funds or error occurred.");
     }
 }
-
     </script>
 </body>
 </html>
