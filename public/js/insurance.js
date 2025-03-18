@@ -71,3 +71,51 @@ insuranceSearch.addEventListener('click', () => {
         insuranceContainer.appendChild(noResults);
     }
 });
+
+const ctx = document.getElementById('myChart');
+
+
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: [insurancePlans[0].premium,insurancePlans[1].premium, insurancePlans[2].premium, insurancePlans[3].premium, insurancePlans[4].premium, insurancePlans[5].premium],
+      datasets: [{
+        label: 'coverage',
+        data: [insurancePlans[0].coverage, insurancePlans[1].coverage, insurancePlans[2].coverage, insurancePlans[3].coverage, insurancePlans[4].coverage, insurancePlans[5].coverage],
+        borderWidth: 1
+      }]
+    },
+    options: {
+        // responsive: true, 
+      scales: {
+        y: {
+          beginAtZero: true,
+          suggestedMax: 10000000
+        }
+      }
+    }
+  });
+
+  const ctx2 = document.getElementById('myChart2')
+ 
+  new Chart(ctx2, {
+    type: 'bar',
+    data: {
+      labels: [insurancePlans[0].premium,insurancePlans[1].premium, insurancePlans[2].premium, insurancePlans[3].premium, insurancePlans[4].premium, insurancePlans[5].premium],
+      datasets: [{
+        label: 'coverage',
+        data: [insurancePlans[0].coverage, insurancePlans[1].coverage, insurancePlans[2].coverage, insurancePlans[3].coverage, insurancePlans[4].coverage, insurancePlans[5].coverage],
+        borderWidth: 1
+      }]
+    },
+    options: {
+        // responsive:true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          suggestedMax: 10000000
+        }
+      }
+    }
+  });
+ 
