@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include('../includes/flash.ejs') %>
+    <div class="container">
+        <div class="profile-card">
+            <div class="profile-header">
+                <img src="/images/profileImg.jpg" alt="Profile Picture" class="profile-image">
+                <div class="profile-info">
+                    <h1 class="profile-name"><%= user.firstname %></h1>
+                    <p class="profile-email"><%= user.email %></p>
+                </div>
+            </div>
+            <div class="wallet-section">
+                <h3 class="wallet-title">Wallet</h3>
+                <p class="wallet-balance">Balance: <span id="balance" class="balance-amount">$<%= user.walletBalance.toFixed(2) %></span></p>
+                    <div class="wallet-actions">
+                        <input type="number" id="amount" placeholder="Enter amount" class="amount-input">
+                        <button onclick="addMoney()" class="add-money-button">Add</button>
+                        <button onclick="withdrawMoney()" class="withdraw-money-button">Withdraw</button>
+                    </div>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h2 class="stat-title">Total Balance</h2>
+                <p id="balance" class="stat-amount green">$<%= user.walletBalance.toFixed(2) %></p>
+            </div>
+            <div class="stat-card">
+                <h2 class="stat-title">Monthly Income</h2>
+                <p class="stat-amount blue">$<%= user.income.toFixed(2) %></p>
+            </div>
+            <div class="stat-card">
+                <h2 class="stat-title">Monthly Expenses</h2>
+                <p class="stat-amount red">$<%= user.expenses.toFixed(2) %></p>
+            </div>
+        </div>
+
+        <div class="transactions-section">
+            <h2 class="transactions-title">Recent Transactions</h2>
+            <div class="transactions-list">
+                <% if (user.transactions.length > 0) { %>
+                    <% user.transactions.forEach(transaction => { %>
+                        <div class="transaction-item">
+                            <div class="transaction-details">
+                                <h3 class="transaction-name"><%= transaction.name %></h3>
+                                <p class="transaction-description"><%= transaction.description %></p>
+                            </div>
+                            <p class="transaction-amount <%= transaction.amount < 0 ? 'red' : 'green' %>">
+                                <%= transaction.amount < 0 ? '-' : '+' %>$<%= Math.abs(transaction.amount).toFixed(2) %>
+                            </p>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <p>No recent transactions.</p>
+                <% } %>
+            </div>
+            <input type="hidden" id="userId" value="<%= user.id %>">
+        </div>
+    </div>
+
+    <script>
+    const userId = document.getElementById('userId').value; // If you have a hidden input field for user ID
+    console.log(userId);
+async function addMoney() {
+    const amount = Number(document.getElementById('amount').value);
+    if (isNaN(amount) || amount <= 0) {
+        alert("Please enter a valid positive amount.");
+        return;
+    }
+    // const userId = '<%= user._id %>'; // Assuming user._id is available in your template
+    const url = `/wallet/${userId}/add`;
+    try {
+        const response = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ amount })
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            document.getElementById('balance').textContent = `$${data.newBalance.toFixed(2)}`;
+        } else {
+            alert("Failed to add money. Please try again.");
+        }
+    } catch (error) {
+        console.error("Network error:", error);
+        alert("Network error. Please try again.");
+    }
+}
+const withdrawMoney = async () => {
+    const amount = Number(document.getElementById("amount").value);
+
+    if (isNaN(amount) || amount <= 0) {
+        alert("Enter a valid amount");
+        return;
+    }
+    const url = `/wallet/${userId}/sub`;
+
+    const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: amount }),
+    });
+
+    const data = await response.json();
+    console.log(data);
+
+    if (!response.ok) {
+        alert("Error: " + data.error);
+    }
+};
+
+    </script>
+</body>
+</html>

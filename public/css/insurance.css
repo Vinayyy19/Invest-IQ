@@ -1,0 +1,56 @@
+.insurance-container {
+    background-color: green;
+}
+
+.insurance-list {
+    list-style-type: none;
+    border: 1px solid gray;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    padding: 20px 10px;
+    border-radius: 4px;
+    width: 90%;
+    max-width: 550px;
+    position: relative;
+
+}
+
+.buy {
+    position: absolute;
+    right: 5.5rem;
+    padding: 10px 20px;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    background-color: rgb(35, 228, 35);
+    transition: background 0.3s ease-in-out
+}
+
+.buy:hover {
+    background-color: green;
+}
+
+.sell {
+    right: 0.5rem;
+    position: absolute;
+    padding: 10px 20px;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    background-color: rgb(255, 52, 52);
+    transition: background 0.3s ease-in-out
+}
+
+.sell:hover {
+    background-color: red;
+}
+
+.insurance-price {
+    font-weight: bold;
+}
+
+.insurance-name {
+    font-weight: bold;
+    margin-right: 2rem;
+}

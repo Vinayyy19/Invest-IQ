@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>InvestIQ</title>
+    <link rel="stylesheet" href="/css/output.css" />
+  </head>
+  <style>
+    
+    @keyframes scroll {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-100%);
+      }
+    }
+
+    .slider {
+      display: flex;
+      white-space: nowrap;
+      animation: scroll 10s linear infinite;
+    }
+
+    .slider-wrapper {
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      display: flex;
+    }
+
+    
+    .slider .slide {
+      flex: 0 0 auto;
+      width: 200px; 
+      margin: 0 10px;
+    }
+  </style>
+  <body>
+    
+    <!-- navbar -->
+    <nav
+      class="w-full"
+      style="background: linear-gradient(90deg, #1cb5e0 0%, #000851 100%)"
+    >
+      <div
+        class=" flex items-center pt-2 justify-between mx-auto p-3 "
+      >
+        <div><h1 class="text-white font-bold text-xl cursor-pointer">InvestIQ</h1></div>
+        <div
+          class="flex justify-between gap-10 text-white font-semibold text-l"
+        >
+        <% if (CurrUser) { %>
+          <a class="nav-link" href="/logout"><b>Logout</b></a>
+          <% } else { %>
+          <a class="hover:underline" href="/login">Login</a>
+          <a class="hover:underline" href="/signup">Signup</a>
+          <% } %>
+        </div>
+      </div>
+    </nav>
+
+    <!-- home -->
+    <%- include('../includes/flash.ejs') %>
+    <div
+      class="container mx-auto p-4"
+      style="
+        background-color: #0093e9;
+        background-image: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%);
+      "
+    >
+      <h1 class="text-3xl font-bold text-white text-center pt-5">
+        Money Management built for businesses of all sizes
+      </h1>
+      <p class="font-semibold text-l text-white text-center pt-5">
+        Experience the convenience of simplified money stored ,faster <br />
+        expense reporting, and effective cost control.
+      </p>
+      <div class="flex justify-center items-center gap-10 pt-10 pb-16">
+        <div class="pt-10">
+          <img
+            class="h-[400px] w-60 rounded-xl"
+            src="/images/stock8.png"
+            alt=""
+          />
+        </div>
+        <div>
+          <img
+            class="h-[500px] w-[550px] rounded-xl"
+            src="/images/stock2.jpg"
+            alt=""
+          />
+        </div>
+        <div class="h-[450px] w-60 flex flex-col justify-around rounded-xl">
+          <div>
+            <img
+              class="rounded-xl h-48"
+              src="/images/stcok3.png"
+              alt=""
+            />
+          </div>
+          <div>
+            <img
+              class="rounded-xl h-48"
+              src="/images/stock4.png"
+              alt=""
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div></div>
+    
+    <div class="flex justify-between items-center gap-10 px-36 mt-10 mb-6">
+      <div
+        class="border hover:border-2 flex flex-col items-center justify-center rounded-md"
+      >
+        <img class="w-full" src="/images/stock.png" alt="" />
+        <div class="mt-5">
+          <h2 class="mb-4 font-bold text-xl pl-3">Stocks</h2>
+          <p class="font-light p-3">
+            Manage corporate travel with an unbeatable booking experience while
+            controlling costs and ensuring compliance
+          </p>
+          <a href="/stock">
+          <button
+            class="mb-2 ml-3 px-6 py-2 bg-blue-500 text-white font-bold rounded-md transition duration-300 transform hover:scale-105 hover:bg-blue-600 cursor-pointer"
+          >
+            Go to stocks
+          </button>
+        </a>
+        </div>
+      </div>
+      <div
+        class="border hover:border-2 flex flex-col items-center justify-center rounded-md"
+      >
+        <img class="w-full" src="/images/bonds.png" alt="" />
+        <div class="mt-5">
+          <h2 class="mb-4 font-bold text-xl pl-3">Bonds</h2>
+          <p class="font-light p-3">
+            Manage corporate travel with an unbeatable booking experience while
+            controlling costs and ensuring compliance
+          </p>
+          <a href="/bond">
+          <button"
+            class="mb-2 ml-3 px-6 py-2 bg-blue-500 text-white font-bold rounded-md transition duration-300 transform hover:scale-105 hover:bg-blue-600 cursor-pointer"
+          >
+            Go to Bonds
+          </button>
+        </a>
+        </div>
+      </div>
+      <div
+        class="border hover:border-2 flex flex-col items-center justify-center rounded-md"
+      >
+        <img class="w-full" src="/images/insurance.png" alt="" />
+        <div class="mt-5">
+          <h2 class="mb-4 font-bold text-xl pl-3">Insurance</h2>
+          <p class="font-light p-3">
+            Manage corporate travel with an unbeatable booking experience while
+            controlling costs and ensuring compliance
+          </p>
+        <a href="/insurance">
+          <button
+            class="mb-2 ml-3 px-6 py-2 bg-blue-500 text-white font-bold rounded-md transition duration-300 transform hover:scale-105 hover:bg-blue-600 cursor-pointer"
+          >
+            Go to Insurance
+          </button>
+        </a>
+        </div>
+      </div>
+    </div>
+    <div class=" flex items-center justify-center">
+      <div class="w-full max-w-4xl overflow-hidden">
+        <div class="slider-wrapper">
+          <div class="slider flex items-center">
+            <!-- Slide Items -->
+            <div class="slide  text-white p-4 rounded-lg text-center">
+              <img src="/images/slider1.png" alt="" />
+            </div>
+            <div class="slide  text-white p-4 rounded-lg text-center">
+              <img src="/images/slider2.png" alt="" />
+            </div>
+            <div class="slide  text-white p-4 rounded-lg text-center">
+              <img src="/images/slider3.png" alt="" />
+            </div>
+            <div
+              class="slide  text-black p-4 rounded-lg text-center"
+            >
+              <img src="/images/slider4.png" alt="" />
+            </div>
+            <div
+              class="slide  text-white p-4 rounded-lg text-center"
+            >
+              <img src="/images/slider5.png" alt="" />
+            </div>
+  
+            <!-- Duplicate slides for seamless effect -->
+            <div class="slide text-white p-4 rounded-lg text-center">
+              <img src="/images/slider1.png" alt="" />
+            </div>
+            <div class="slide  text-white p-4 rounded-lg text-center">
+              <img src="/images/slider2.png" alt="" />
+            </div>
+            <div class="slide  text-white p-4 rounded-lg text-center">
+              <img src="/images/slider3.png" alt="" />
+            </div>
+            <div
+              class="slide  text-black p-4 rounded-lg text-center"
+            >
+              <img src="/images/slider4.png" alt="" />
+            </div>
+            <div
+              class="slide  text-white p-4 rounded-lg text-center"
+            >
+              <img src="/images/slider5.png" alt="" />
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+    <!-- footer -->
+    <footer
+      class="text-gray-300"
+      style="
+        background-color: #0093e9;
+        background-image: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%);
+      "
+    >
+      <div class="container mx-auto px-6 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <h3 class="text-white font-semibold text-lg mb-4">PRODUCT</h3>
+            <ul class="space-y-2">
+              <li>
+                <a href="#" class="hover:text-white transition-colors"
+                  >Features</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition-colors"
+                  >Mobile App</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition-colors"
+                  >Pricing</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition-colors"
+                  >Customer Stories</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="text-white font-semibold text-lg mb-4">RESOURCES</h3>
+            <ul class="space-y-2">
+              <li>
+                <a href="#" class="hover:text-white transition-colors">Help</a>
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition-colors"
+                  >API Documentation</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition-colors"
+                  >Community</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition-colors"
+                  >Marketplace</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="text-white font-semibold text-lg mb-4">COMPANY</h3>
+            <ul class="space-y-2">
+              <li>
+                <a href="#" class="hover:text-white transition-colors"
+                  >About Us</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition-colors"
+                  >Contact Sales</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition-colors"
+                  >Careers</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition-colors"
+                  >Security</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="text-white font-semibold text-lg mb-4">
+              CONNECT WITH US
+            </h3>
+            <div class="flex space-x-4 mb-6">
+              <a href="#" class="hover:text-white transition-colors">
+                <i class="fa-brands fa-instagram"></i>
+              </a>
+              <a href="#" class="hover:text-white transition-colors">
+                <i class="fa-brands fa-x-twitter"></i>
+              </a>
+              <a href="#" class="hover:text-white transition-colors">
+                <i class="fa-brands fa-facebook"></i>
+              </a>
+              <a href="#" class="hover:text-white transition-colors">
+                <i class="fa-brands fa-youtube"></i>
+              </a>
+            </div>
+            <div>
+              <p class="text-sm mb-2">Contact Support:</p>
+              <a
+                href="mailto:support@example.com"
+                class="text-sm hover:text-white transition-colors"
+                >support@example.com</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-gray-700">
+        <div class="container mx-auto px-6 py-4">
+          <div
+            class="flex flex-col md:flex-row justify-between items-center text-sm"
+          >
+            <div class="mb-4 md:mb-0">
+              <span>© 2024 Example Company. All rights reserved.</span>
+            </div>
+            <div class="flex space-x-6">
+              <a href="#" class="hover:text-white transition-colors"
+                >Privacy Policy</a
+              >
+              <a href="#" class="hover:text-white transition-colors"
+                >Terms of Service</a
+              >
+              <a href="#" class="hover:text-white transition-colors">GDPR</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
